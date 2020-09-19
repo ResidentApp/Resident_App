@@ -41,7 +41,7 @@ exports.SignUp = async (req, res) => {
     };
     jwt.sign(
       payload,
-      process.env.jwtSecret,
+      config.get('jwtSecret'),
       {
         expiresIn: 1209600,
       },
@@ -83,7 +83,7 @@ exports.SignIn = async (req, res) => {
     };
     jwt.sign(
       payload,
-      process.env.jwtSecret,
+      config.get('jwtSecret'),
       {
         expiresIn: 1209600,
       },
@@ -119,7 +119,7 @@ exports.GoogleSign = async (req, res) => {
       };
       jwt.sign(
         payload,
-        process.env.jwtSecret,
+        config.get('jwtSecret'),
         {
           expiresIn: 1209600,
         },
@@ -147,7 +147,7 @@ exports.GoogleSign = async (req, res) => {
       };
       jwt.sign(
         payload,
-        process.env.jwtSecret,
+        config.get.('jwtSecret'),
         {
           expiresIn: 1209600,
         },
