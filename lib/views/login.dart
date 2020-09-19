@@ -62,12 +62,13 @@ class _LoginPageState extends State<LoginPage> {
 
   signIn(String email, String pass) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    
+
     var jsonResponse = null;
 
-    var response = await Dio().post('https://residentapp.herokuapp.com/signin',
-        data: {'email': email, 'password': pass},
-        );
+    var response = await Dio().post(
+      'https://residentapp.herokuapp.com/signin',
+      data: {'email': email, 'password': pass},
+    );
     jsonResponse = json.decode(response.data);
     if (jsonResponse != null) {
       setState(() {
@@ -82,6 +83,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  // Container logoSection() {
+  //   return Container(
+  //     width: MediaQuery.of(context).size.width,
+  //     height: 50.0,
+  //       padding: EdgeInsets.symmetric(horizontal: 20.0),
+  //       margin: EdgeInsets.only(top: 10.0),
+  //       child: Image.asset("images/appstore.png",scale: 1.0,)
+  //   );
+  // }
   Container buttonSection() {
     return Container(
         width: MediaQuery.of(context).size.width,
@@ -101,9 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                         });
                         signIn(emailController.text, passwordController.text)
                             .whenCompleted(() => {
-                                setState(()=>{
-                                  _isLoading = false
-                                }),
+                                  setState(() => {_isLoading = false}),
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
@@ -206,7 +214,12 @@ class _LoginPageState extends State<LoginPage> {
           child: _isLoading
               ? Center(child: CircularProgressIndicator())
               : ListView(
-                  children: [heardSection(), textSection(), buttonSection()],
+                  children: [
+                    // logoSection(),
+                    heardSection(),
+                    textSection(),
+                    buttonSection()
+                  ],
                 )),
     );
   }

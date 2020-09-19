@@ -1,48 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'views/login.dart';
-import 'views/profile.dart';
-import 'auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
-import 'views/form.dart';
-import 'views/feed.dart';
+import '../models/feed.dart';
 import 'dart:math';
 import 'package:http/http.dart' as http;
-import 'models/feed.dart';
-import 'views/post.dart';
-import 'views/personal.dart';
-void main() {
-  runApp(MyApp());
-}
+import '../auth.dart';
+import 'login.dart';
+import 'post.dart';
+import 'form.dart';
+import '../main.dart';
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
+class PersonalPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Resident',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MainPage(),
-    );
-  }
+  _PersonalPageState createState() => _PersonalPageState();
 }
 
-class MainPage extends StatefulWidget {
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
+class _PersonalPageState extends State<PersonalPage> {
   SharedPreferences sharedPreferences;
   Widget x;
 
   @override
   void initState() {
-    checkLoginStatus();
     checkFeed();
     super.initState();
 
@@ -52,7 +32,7 @@ class _MainPageState extends State<MainPage> {
   var feeds = List<Feed>();
   checkFeed() async {
     var response = await http.get(
-      "https://resident12.herokuapp.com/posts/allposts",
+      "https://resident12.herokuapp.com/posts/myposts",
     );
     Iterable jsonResponse = json.decode(response.body);
     feeds = jsonResponse.map((model) => Feed.fromJson(model)).toList();
@@ -61,7 +41,7 @@ class _MainPageState extends State<MainPage> {
 
   getFeed() async {
     var response = await http.get(
-      "https://resident12.herokuapp.com/posts/allposts",
+      "https://resident12.herokuapp.com/posts/myposts",
     );
     Iterable jsonResponse = json.decode(response.body);
     feeds = jsonResponse.map((model) => Feed.fromJson(model)).toList();
@@ -76,14 +56,7 @@ class _MainPageState extends State<MainPage> {
   Color b = Colors.black;
   Color c = Colors.black;
 
-  checkLoginStatus() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString('token') == null) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-          (Route<dynamic> route) => false);
-    }
-  }
+  
 
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,18 +1,18 @@
 class Feed {
-  int id;
+  String id;
   String title;
   String description;
   String imgURL;
 
-  Feed(int id, String title,String description, String imgURL) {
-    this.id = id;
+  Feed(String _id, String title,String description, String imgURL) {
+    this.id = _id;
     this.title = title;
     this.description = description;
     this.imgURL = imgURL;
   }
 
   Feed.fromJson(Map json)
-      : id = json['id'],
+      : id = json['_id'],
         title = json['title'],
         description = json['description'],
         imgURL = json['imgURL'];

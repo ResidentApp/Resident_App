@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../main.dart';
 
 var x;
 
@@ -22,10 +23,10 @@ class _FormPageState extends State<FormPage> {
   final _formKey = GlobalKey<FormState>();
   File _imageFile;
 
-  
   postCreation() async {
     var preferences = await SharedPreferences.getInstance();
-    StorageReference ref = FirebaseStorage.instance.ref().child(x.toString() + '.png');
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child(x.toString() + '.png');
     var url = await ref.getDownloadURL();
     var token1 = preferences.getString('token');
     print(token1);
@@ -39,7 +40,9 @@ class _FormPageState extends State<FormPage> {
       "title": taskName.text,
       "description": desc.text,
       "imgURL": url.toString(),
-      "location":{"coordinates": [position.latitude,position.longitude]},
+      "location": {
+        "coordinates": [position.latitude, position.longitude]
+      },
     };
     Response response =
         await Dio().post("https://resident12.herokuapp.com/posts/createPost",
@@ -47,6 +50,9 @@ class _FormPageState extends State<FormPage> {
             options: Options(headers: {
               "x-auth-token": token1,
             }));
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => MainPage()),
+        (Route<dynamic> route) => false);
   }
 
   /// Select an image via gallery or camera
