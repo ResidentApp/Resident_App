@@ -17,9 +17,10 @@ router.post(
   PostController.CreatePost
 );
 
-//DELETE post
-//Private route
-
 router.delete('/deletepost/:id', auth, PostController.DeletePost);
+
+router.get('/myposts', auth, PostController.GetMyPosts);
+
+router.put('/upvote/:id', auth, PostController.Upvote);
 
 module.exports = router;

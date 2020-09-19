@@ -45,3 +45,54 @@ exports.DeletePost = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+exports.GetMyPosts = async (req, res) => {
+  try {
+    const myPosts = await Posts.find({ author: req.user.id });
+    if (!myPosts) {
+      return res.status(400).json({ msg: '0 posts available' });
+    }
+    res.json(myPosts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('server Error');
+  }
+};
+
+exports.Upvote = async (req, res) => {
+  try {
+    const post = await Posts.findById(req.params.id);
+    //check if the post has already been liked
+    if (
+      post.downvotes.filter(
+        downvote => downvote.user.toString() === req.user.id
+      ).length > 0
+    ) {
+      const removeIndex = post.downvotes
+        .map(dislike => dislike.user.toString())
+        .indexOf(req.user.id);
+
+      post.downvotes.splice(removeIndex, 1);
+      await post.save();
+    }
+    if (
+      post.upvotes.filter(upvote => upvote.user.toString() === req.user.id)
+        .length > 0
+    ) {
+      const removeIndex = post.upvotes
+        .map(like => like.user.toString())
+        .indexOf(req.user.id);
+
+      post.upvotes.splice(removeIndex, 1);
+      await post.save();
+      return res.json(post.upvotes);
+    }
+    //if post has not been liked yet
+    post.upvotes.unshift({ user: req.user.id });
+    await post.save();
+    res.json(post.upvotes);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
