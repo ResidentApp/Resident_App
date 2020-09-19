@@ -15,6 +15,7 @@ app.use('/signup', require('./Routes/UserRoutes/signUp'));
 app.use('/signin', require('./Routes/UserRoutes/signIn'));
 app.use('/googlesign', require('./Routes/UserRoutes/GoogleSign'));
 app.use('/test', require('./Routes/PostRoutes/testRoute'));
+app.use('/posts', require('./Routes/PostRoutes/post'));
 //route ends
 
 app.listen(PORT, () => {
