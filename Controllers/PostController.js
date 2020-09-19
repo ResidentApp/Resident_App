@@ -135,7 +135,7 @@ exports.Downvote = async (req, res) => {
   }
 };
 
-exports.Flag = async (req, res) => {
+exports.Flags = async (req, res) => {
   try {
     const post = await Posts.findById(req.params.id);
     //check if its already flagged
