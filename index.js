@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 //connect your routes here
 app.use('/signup', require('./Routes/UserRoutes/signUp'));
 app.use('/signin', require('./Routes/UserRoutes/signIn'));
-
+app.use('/googlesign', require('./Routes/UserRoutes/GoogleSign'));
 //route ends
 
 app.listen(PORT, () => {

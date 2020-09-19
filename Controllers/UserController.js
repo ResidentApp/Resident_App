@@ -101,3 +101,68 @@ exports.SignIn = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+exports.GoogleSign = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { email, username, googleID } = req.body;
+
+  try {
+    var user = await Users.findOne({ googleID });
+    if (user) {
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        {
+          expiresIn: 1209600,
+        },
+        (err, token) => {
+          if (err) {
+            throw err;
+          } else {
+            console.log('user logged in using google ');
+            res.json({ token });
+          }
+        }
+      );
+    } else {
+      user = new Users({
+        name: username,
+        username: username,
+        email: email,
+        googleID: googleID,
+      });
+      await user.save();
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        {
+          expiresIn: 1209600,
+        },
+        (err, token) => {
+          if (err) {
+            throw err;
+          } else {
+            console.log('User signed up using Google');
+            res.json({ token });
+          }
+        }
+      );
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server error');
+  }
+};
