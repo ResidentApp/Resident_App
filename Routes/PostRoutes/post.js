@@ -17,4 +17,9 @@ router.post(
   PostController.CreatePost
 );
 
+//DELETE post
+//Private route
+
+router.delete('/deletepost/:id', auth, PostController.DeletePost);
+
 module.exports = router;

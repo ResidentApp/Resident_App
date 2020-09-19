@@ -22,3 +22,26 @@ exports.CreatePost = async (req, res) => {
     res.status(500).send('server error');
   }
 };
+
+exports.DeletePost = async (req, res) => {
+  try {
+    const post = await Posts.findById(req.params.id);
+    //check if post exists
+    if (!post) {
+      return res.status(404).send({ msg: 'post not found' });
+    }
+    //check if the post belongs to user or not
+
+    if (post.author.toString() != req.user.id) {
+      return res.status(401).json({ msg: 'User not Authorized' });
+    }
+    await post.remove();
+    res.json('Post removed');
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'post not found' });
+    }
+    res.status(500).send('Server error');
+  }
+};
