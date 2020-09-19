@@ -28,4 +28,10 @@ router.put('/upvote/:id', auth, PostController.Upvote);
 //downvote a post
 router.put('/downvote/:id', auth, PostController.Downvote);
 
+//flag a post
+router.put('/flag/:id', auth, PostController.Flags);
+
+//get post by id
+router.get('/:id', auth, PostController.GetPostById);
+
 module.exports = router;

@@ -134,3 +134,41 @@ exports.Downvote = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+exports.Flag = async (req, res) => {
+  try {
+    const post = await Posts.findById(req.params.id);
+    //check if its already flagged
+    if (
+      post.flags.filter(flag => flag.user.toString() === req.user.id).length > 0
+    ) {
+      const removeIndex = post.flags
+        .map(flag => flag.user.toString())
+        .indexOf(req.user.id);
+
+      post.flags.splice(removeIndex, 1);
+      await post.save();
+      return res.json(post.flags);
+    }
+    //if post has not been liked yet
+    post.flags.unshift({ user: req.user.id });
+    await post.save();
+    res.json(post.flags);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.GetPostById = async (req, res) => {
+  try {
+    const post = await Posts.findById(req.params.id);
+    if (!post) {
+      return res.status(404).send({ msg: 'post details not found' });
+    }
+    res.json(post);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('server Error');
+  }
+};
