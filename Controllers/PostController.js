@@ -59,6 +59,27 @@ exports.GetMyPosts = async (req, res) => {
   }
 };
 
+exports.GetAllPosts = (req, res, next) => {
+  Posts.aggregate().near({
+    near: [parseFloat(req.params.lng), parseFloat(req.params.lat)],
+    maxDistance: 2/6371,
+    spherical: true,
+    distanceField: "dis"
+   })
+   .then(posts => {
+    console.log(posts);
+    if (posts) {
+      if (posts.length === 0)
+        return res.send({
+          message:
+            "maxDistance is too small, or your query params {lng, lat} are incorrect (too big or too small)."
+        });
+      return res.send(posts);
+    }
+  })
+  .catch(next);
+};
+
 exports.Upvote = async (req, res) => {
   try {
     const post = await Posts.findById(req.params.id);
