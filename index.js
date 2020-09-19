@@ -11,7 +11,7 @@ app.use(express.json({ extended: false }));
 const PORT = process.env.PORT || 5000;
 
 //connect your routes here
-
+app.use('/signup', require('./Routes/UserRoutes/signUp'));
 //route ends
 
 app.listen(PORT, () => {
