@@ -34,4 +34,7 @@ router.put('/flag/:id', auth, PostController.Flags);
 //get post by id
 router.get('/:id', auth, PostController.GetPostById);
 
+//get posts by location
+router.get('/allposts/:lng/:lat', auth, PostController.GetAllPosts);
+
 module.exports = router;
