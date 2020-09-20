@@ -11,7 +11,7 @@ router.post(
   [
     auth,
     check('title', 'title is required').not().isEmpty(),
-    check('description', 'Description is required').not().isEmpty(),
+    check('description', 'Description is Required').not().isEmpty(),
   ],
   PostController.CreatePost
 );
