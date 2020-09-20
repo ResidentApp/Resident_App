@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
@@ -9,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
+import 'package:intl/intl.dart';
 
 var x;
 
@@ -21,16 +23,42 @@ class _FormPageState extends State<FormPage> {
   final taskName = TextEditingController();
   final desc = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  File _imageFile;
 
+  void initState() {
+    
+    super.initState();
+  }
+
+  File _imageFile;
+  func() {
+    return;
+  }
+  String msg = "";
   postCreation() async {
     var preferences = await SharedPreferences.getInstance();
     StorageReference ref =
         FirebaseStorage.instance.ref().child(x.toString() + '.png');
     var url = await ref.getDownloadURL();
     var token1 = preferences.getString('token');
-    print(token1);
-    print(url);
+    // print(token1);
+    // print(url);
+    var y = DateTime.now();
+
+    print(preferences.getString('uploadTime'));
+    var prevUpload = DateTime.parse(preferences.getString('uploadTime'));
+    preferences.setString('uploadTime', (DateTime.now()).toString());
+    if (prevUpload != null) {
+      var diff = y.difference(prevUpload);
+      print(diff.inMinutes);
+      if (diff.inMinutes <= 15) {
+        setState(() {
+          msg = "To avoid spam app allows user to post only once in 15 mins...";
+        });
+
+        return;
+      }
+    }
+
     // final ref = FirebaseStorage.instance.ref().child(x);
     // var url = await ref.getDownloadURL();
     Position position =
@@ -190,6 +218,7 @@ class _FormPageState extends State<FormPage> {
                               borderRadius: BorderRadius.circular(3.0)),
                         ),
                       ),
+                      Center(child:Text(msg,style: TextStyle(color: Colors.red),))
                     ],
                   ),
                 ),
@@ -214,11 +243,14 @@ class _UploaderState extends State<Uploader> {
   StorageUploadTask _uploadTask;
 
   /// Starts an upload task
-  void _startUpload() {
+  void _startUpload() async {
     /// Unique file name for the file
     ///
+    final sharedPreferences = await SharedPreferences.getInstance();
+
     x = DateTime.now();
 
+    sharedPreferences.setString('uploadTime', x.toString());
     String filePath = '${x}.png';
 
     setState(() {

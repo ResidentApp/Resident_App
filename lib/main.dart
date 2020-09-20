@@ -13,6 +13,7 @@ import 'models/feed.dart';
 import 'views/post.dart';
 import 'views/personal.dart';
 import 'package:geolocator/geolocator.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -147,64 +148,109 @@ class _MainPageState extends State<MainPage> {
                               margin: EdgeInsets.only(top: 30.0),
                               child: Row(
                                 children: [
-                                  IconButton(
-                                    icon: Icon(Icons.arrow_upward),
-                                    color: a,
-                                    onPressed: () async {
-                                      var response = await http.put(
-                                        "https://resident12.herokuapp.com/posts/upvote/${feeds[index].id}",
-                                      );
-                                      if (a == Colors.black) {
-                                        setState(() {
-                                          a = Colors.grey;
-                                        });
-                                        
-                                      } else {
-                                        setState(() {
-                                          a = Colors.black;
-                                        });
-                                      }
-                                    },
-                                  ),
-                                  IconButton(
-                                    color: b,
-                                    icon: Icon(Icons.arrow_downward),
-                                    onPressed: () async {
-                                      print(feeds[index].id);
-                                      var response = await http.put(
-                                        "https://resident12.herokuapp.com/posts/downvote/${feeds[index].id}",
-                                      );
-                                      if (b == Colors.black) {
-                                        setState(() {
-                                          b = Colors.grey;
-                                        });
-                                        
-                                      } else {
-                                        setState(() {
-                                          b = Colors.black;
-                                        });
-                                      }
-                                    },
-                                  ),
-                                  IconButton(
-                                    color : c,
-                                    icon: Icon(Icons.flag),
-                                    onPressed: () async {
-                                      var response = await http.get(
-                                        "https://resident12.herokuapp.com/posts/flag/${feeds[index].id}",
-                                      );
-                                      if (c == Colors.black) {
-                                        setState(() {
-                                          c = Colors.grey;
-                                        });
-                                        
-                                      } else {
-                                        setState(() {
-                                          c = Colors.black;
-                                        });
-                                      }
-                                    },
-                                  )
+                                  Column(children: [
+                                    IconButton(
+                                      icon: Icon(Icons.arrow_upward),
+                                      color: a,
+                                      onPressed: () async {
+                                        var sharedpreferences =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        var token1 = sharedpreferences
+                                            .getString('token');
+                                        var response = await http.put(
+                                            "https://resident12.herokuapp.com/posts/upvote/${feeds[index].id}",
+                                            headers: {
+                                              'x-auth-token': token1,
+                                            });
+                                        print(feeds[index].upvotes);
+                                        // if (a == Colors.black) {
+                                        //   setState(() {
+                                        //     a = Colors.grey;
+                                        //   });
+
+                                        // } else {
+                                        //   setState(() {
+                                        //     a = Colors.black;
+                                        //   });
+                                        // }
+                                      },
+                                    ),
+                                    Text(feeds[index].upvotes.isEmpty
+                                        ? "0"
+                                        : (((feeds[index].upvotes.length) / 2)
+                                                .round())
+                                            .toString())
+                                  ]),
+                                  Column(children: [
+                                    IconButton(
+                                      color: b,
+                                      icon: Icon(Icons.arrow_downward),
+                                      onPressed: () async {
+                                        print(feeds[index].id);
+                                        var sharedpreferences =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        var token1 = sharedpreferences
+                                            .getString('token');
+                                        var response = await http.put(
+                                            "https://resident12.herokuapp.com/posts/downvote/${feeds[index].id}",
+                                            headers: {
+                                              'x-auth-token': token1,
+                                            });
+                                        // if (b == Colors.black) {
+                                        //   setState(() {
+                                        //     b = Colors.grey;
+                                        //   });
+
+                                        // } else {
+                                        //   setState(() {
+                                        //     b = Colors.black;
+                                        //   });
+                                        // }
+                                      },
+                                    ),
+                                    Text(feeds[index].downvotes.isEmpty
+                                        ? "0"
+                                        : (((feeds[index].downvotes.length) / 2)
+                                                .round())
+                                            .toString())
+                                  ]),
+                                  Column(children: [
+                                    IconButton(
+                                      color: c,
+                                      icon: Icon(Icons.flag),
+                                      onPressed: () async {
+                                        var sharedpreferences =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        var token1 = sharedpreferences
+                                            .getString('token');
+                                        var response = await http.get(
+                                            "https://resident12.herokuapp.com/posts/flag/${feeds[index].id}",
+                                            headers: {
+                                              'x-auth-token': token1,
+                                            });
+                                        print(feeds[index].flags);
+
+                                        // if (c == Colors.black) {
+                                        //   setState(() {
+                                        //     c = Colors.grey;
+                                        //   });
+
+                                        // } else {
+                                        //   setState(() {
+                                        //     c = Colors.black;
+                                        //   });
+                                        // }
+                                      },
+                                    ),
+                                    Text(feeds[index].flags.isEmpty
+                                        ? "0"
+                                        : (((feeds[index].flags.length) / 2)
+                                                .round())
+                                            .toString())
+                                  ])
                                 ],
                               ))),
                 );

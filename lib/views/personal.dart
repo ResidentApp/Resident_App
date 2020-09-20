@@ -128,15 +128,15 @@ class _PersonalPageState extends State<PersonalPage> {
                                       // var response = await http.get(
                                       //   "https://resident12.herokuapp.com/posts/upvote/${feeds[index].id}",
                                       // );
-                                      if (a == Colors.black) {
-                                        setState(() {
-                                          a = Colors.grey;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          a = Colors.black;
-                                        });
-                                      }
+                                      // if (a == Colors.black) {
+                                      //   setState(() {
+                                      //     a = Colors.grey;
+                                      //   });
+                                      // } else {
+                                      //   setState(() {
+                                      //     a = Colors.black;
+                                      //   });
+                                      // }
                                     },
                                   ),
                                   IconButton(
@@ -147,15 +147,15 @@ class _PersonalPageState extends State<PersonalPage> {
                                       // var response = await http.get(
                                       //   "https://resident12.herokuapp.com/posts/downvote/${feeds[index].id}",
                                       // );
-                                      if (b == Colors.black) {
-                                        setState(() {
-                                          b = Colors.grey;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          b = Colors.black;
-                                        });
-                                      }
+                                      // if (b == Colors.black) {
+                                      //   setState(() {
+                                      //     b = Colors.grey;
+                                      //   });
+                                      // } else {
+                                      //   setState(() {
+                                      //     b = Colors.black;
+                                      //   });
+                                      // }
                                     },
                                   ),
                                   IconButton(
@@ -165,15 +165,15 @@ class _PersonalPageState extends State<PersonalPage> {
                                       // var response = await http.get(
                                       //   "https://resident12.herokuapp.com/posts/flag/${feeds[index].id}",
                                       // );
-                                      if (c == Colors.black) {
-                                        setState(() {
-                                          c = Colors.grey;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          c = Colors.black;
-                                        });
-                                      }
+                                      // if (c == Colors.black) {
+                                      //   setState(() {
+                                      //     c = Colors.grey;
+                                      //   });
+                                      // } else {
+                                      //   setState(() {
+                                      //     c = Colors.black;
+                                      //   });
+                                      // }
                                     },
                                   )
                                 ],
