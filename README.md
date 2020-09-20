@@ -2,8 +2,7 @@
 
 # Branches - 
 master - has all the code except the NSFW classifier
-sd/express/routes - has all the code except the NSFW classifier
-pd/classify - has the code NSFW classifier
+
 front-end(flutter) - has the code front the front-end app
 
 # What is Resident ?
