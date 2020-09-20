@@ -88,11 +88,21 @@ exports.ClassifyPosts = async (req, res) => {
       return res.status(404).send({ msg: 'post not found' });
     }
     else{
-      const flagged = posts.filter(post => post.flags.length>10);
+      const flagged = posts.filter(post => post.flags.length>0);
+      flagged.map(flag => {
+        if(classify_comment(flag.description) || classify_image(flag.imgURL)){
+          flag.remove();
+          console.log("Toxic");
+          return res.send({ msg: 'Toxic' });
+        }
+        else {
+          return res.send({ msg: 'Toxic' });
+        }
+      })
     }
   }
   catch(err){
-    
+    console.log(err);
   }
 }
 
