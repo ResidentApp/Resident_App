@@ -1,4 +1,11 @@
 # Resident_App
+
+# Branches - 
+master - has all the code except the NSFW classifier
+sd/express/routes - has all the code except the NSFW classifier
+pd/classify - has the code NSFW classifier
+front-end(flutter) - has the code front the front-end app
+
 # What is Resident ?
 Resident is a Community based Social Awareness App that helps you stay updated with your neighbourhood. From a Pothole hindering the traffic to a new shop opening up in your block, Resident helps you be up-to-date with the affairs of your neighbourhood.
 
