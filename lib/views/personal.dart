@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:geolocator/geolocator.dart';
 import 'dart:convert';
 import '../models/feed.dart';
 import 'dart:math';
@@ -10,7 +11,6 @@ import 'login.dart';
 import 'post.dart';
 import 'form.dart';
 import '../main.dart';
-
 
 class PersonalPage extends StatefulWidget {
   @override
@@ -40,9 +40,16 @@ class _PersonalPageState extends State<PersonalPage> {
   }
 
   getFeed() async {
+     var preferences = await SharedPreferences.getInstance();
+    Position position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(position);
+    var token1 = preferences.getString('token');
     var response = await http.get(
-      "https://resident12.herokuapp.com/posts/myposts",
-    );
+      "https://resident12.herokuapp.com/posts/myposts",headers:{ 
+              "x-auth-token": token1,}
+            );
+    
     Iterable jsonResponse = json.decode(response.body);
     feeds = jsonResponse.map((model) => Feed.fromJson(model)).toList();
     print(feeds[0].title);
@@ -55,8 +62,6 @@ class _PersonalPageState extends State<PersonalPage> {
   Color a = Colors.black;
   Color b = Colors.black;
   Color c = Colors.black;
-
-  
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +132,6 @@ class _PersonalPageState extends State<PersonalPage> {
                                         setState(() {
                                           a = Colors.grey;
                                         });
-                                        
                                       } else {
                                         setState(() {
                                           a = Colors.black;
@@ -147,7 +151,6 @@ class _PersonalPageState extends State<PersonalPage> {
                                         setState(() {
                                           b = Colors.grey;
                                         });
-                                        
                                       } else {
                                         setState(() {
                                           b = Colors.black;
@@ -156,7 +159,7 @@ class _PersonalPageState extends State<PersonalPage> {
                                     },
                                   ),
                                   IconButton(
-                                    color : c,
+                                    color: c,
                                     icon: Icon(Icons.flag),
                                     onPressed: () async {
                                       // var response = await http.get(
@@ -166,7 +169,6 @@ class _PersonalPageState extends State<PersonalPage> {
                                         setState(() {
                                           c = Colors.grey;
                                         });
-                                        
                                       } else {
                                         setState(() {
                                           c = Colors.black;

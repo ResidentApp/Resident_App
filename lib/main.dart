@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'models/feed.dart';
 import 'views/post.dart';
 import 'views/personal.dart';
+import 'package:geolocator/geolocator.dart';
 void main() {
   runApp(MyApp());
 }
@@ -51,8 +52,11 @@ class _MainPageState extends State<MainPage> {
 
   var feeds = List<Feed>();
   checkFeed() async {
+    Position position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(position);
     var response = await http.get(
-      "https://resident12.herokuapp.com/posts/allposts",
+      "https://resident12.herokuapp.com/posts/allposts/${position.longitude}/${position.latitude}",
     );
     Iterable jsonResponse = json.decode(response.body);
     feeds = jsonResponse.map((model) => Feed.fromJson(model)).toList();
@@ -147,9 +151,9 @@ class _MainPageState extends State<MainPage> {
                                     icon: Icon(Icons.arrow_upward),
                                     color: a,
                                     onPressed: () async {
-                                      // var response = await http.get(
-                                      //   "https://resident12.herokuapp.com/posts/upvote/${feeds[index].id}",
-                                      // );
+                                      var response = await http.put(
+                                        "https://resident12.herokuapp.com/posts/upvote/${feeds[index].id}",
+                                      );
                                       if (a == Colors.black) {
                                         setState(() {
                                           a = Colors.grey;
@@ -166,10 +170,10 @@ class _MainPageState extends State<MainPage> {
                                     color: b,
                                     icon: Icon(Icons.arrow_downward),
                                     onPressed: () async {
-                                      // print(feeds[index].id);
-                                      // var response = await http.get(
-                                      //   "https://resident12.herokuapp.com/posts/downvote/${feeds[index].id}",
-                                      // );
+                                      print(feeds[index].id);
+                                      var response = await http.put(
+                                        "https://resident12.herokuapp.com/posts/downvote/${feeds[index].id}",
+                                      );
                                       if (b == Colors.black) {
                                         setState(() {
                                           b = Colors.grey;
@@ -186,9 +190,9 @@ class _MainPageState extends State<MainPage> {
                                     color : c,
                                     icon: Icon(Icons.flag),
                                     onPressed: () async {
-                                      // var response = await http.get(
-                                      //   "https://resident12.herokuapp.com/posts/flag/${feeds[index].id}",
-                                      // );
+                                      var response = await http.get(
+                                        "https://resident12.herokuapp.com/posts/flag/${feeds[index].id}",
+                                      );
                                       if (c == Colors.black) {
                                         setState(() {
                                           c = Colors.grey;

@@ -88,8 +88,8 @@ class _LoginPageState extends State<LoginPage> {
   //     width: MediaQuery.of(context).size.width,
   //     height: 50.0,
   //       padding: EdgeInsets.symmetric(horizontal: 20.0),
-  //       margin: EdgeInsets.only(top: 10.0),
-  //       child: Image.asset("images/appstore.png",scale: 1.0,)
+  //       margin: EdgeInsets.only(top: 30.0),
+  //       child: Image.asset('images/img2.jpeg',scale: 1.0,)
   //   );
   // }
   Container buttonSection() {
