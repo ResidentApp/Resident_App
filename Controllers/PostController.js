@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const Posts = require('../Modals/post');
-const nlp = require('./ML_Functions/classify');
+const nlp = require('../ML_Functions/classify');
 
 exports.CreatePost = async (req, res) => {
   const errors = validationResult(req);
