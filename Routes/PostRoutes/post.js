@@ -19,6 +19,8 @@ router.post(
 //delete my post
 router.delete('/deletepost/:id', auth, PostController.DeletePost);
 
+router.delete('/classify', PostController.ClassifyPosts);
+
 //get my posts
 router.get('/myposts', auth, PostController.GetMyPosts);
 
